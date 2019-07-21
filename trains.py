@@ -10,8 +10,17 @@ if len(sys.argv) < 6:
 	print('5 arguments needed => source_stn_code dest_stn_code travel_date travel_month travel_year')
 	sys.exit()
 
+with open('stations.json') as stations:
+	stns = json.load(stations)
+
 source_stn = sys.argv[1]
+if source_stn not in stns:
+	print('Source station code is invalid')
+	sys.exit()
 dest_stn = sys.argv[2]
+if dest_stn not in stns:
+	print('Destination station code is invalid')
+	sys.exit()
 date = sys.argv[3]
 month = sys.argv[4]
 year = sys.argv[5]
@@ -34,9 +43,9 @@ for row in soup.select('tr.tbs-main-row'):
 	data['trn_name'] = title[8:]
 	data['schedule'] = 'https://erail.in/train-enquiry/'+title[:5]
 	spans = row.find_all('span')[:6]
-	data['source'] = spans[0].text
+	data['source'] = stns[spans[0].text]
 	data['departure time'] = spans[1].text
-	data['destination'] = spans[3].text
+	data['destination'] = stns[spans[3].text]
 	data['arrival time'] = spans[4].text
 	data['duration'] = spans[5].text
 	data['fares'] = []
@@ -52,4 +61,7 @@ for row in soup.select('tr.tbs-main-row'):
 	if len(data['fares']) != 0:		#railyatri shows some trains with no availabilities
 		trains.append(data)
 
-pprint(trains)
+if len(trains) > 0:
+	pprint(trains)
+else:
+	print('Sorry! No trains match your search criteria, please choose different city')
