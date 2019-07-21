@@ -2,13 +2,25 @@ import requests
 import json
 from bs4 import BeautifulSoup
 from pprint import pprint
+import sys
+import datetime
 
-#change the following 5 variables as per the requirement
-source_stn = 'KYN'
-dest_stn = 'NZM'
-date = '25'
-month = '10'
-year = '2019'
+if len(sys.argv) < 6:
+	print('Less arguments provided')
+	print('5 arguments needed => source_stn_code dest_stn_code travel_date travel_month travel_year')
+	sys.exit()
+
+source_stn = sys.argv[1]
+dest_stn = sys.argv[2]
+date = sys.argv[3]
+month = sys.argv[4]
+year = sys.argv[5]
+
+try:
+	datetime.datetime(int(year), int(month), int(date))
+except:
+	print('The date you entered is not valid')
+	sys.exit()
 
 url = 'https://www.railyatri.in/booking/trains-between-stations?from_code='+source_stn+'&from_name=SRC+&journey_date='+date+'%2F'+month+'%2F'+year+'%2F'+'&to_code='+dest_stn+'&to_name=DST+&user_id=1&user_token=6'
 
