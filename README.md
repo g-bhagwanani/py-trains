@@ -1,5 +1,6 @@
+[![made-with-python](https://img.shields.io/badge/made%20with-python-blue.svg)](https://www.python.org/)
 # py-trains
-Scraping data from railyatri.in to find trains for a given source and destination on a given date
+A python program that scrapes data from [railyatri.in](https://www.railyatri.in/train-ticket) to find trains for a given source and destination on a given date.
 
 ## Installation
 To run py-trains, you will need python3 and some additional packages.
