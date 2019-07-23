@@ -13,11 +13,11 @@ if len(sys.argv) < 6:
 with open('stations.json') as stations:
 	stns = json.load(stations)
 
-source_stn = sys.argv[1]
+source_stn = sys.argv[1].upper()
 if source_stn not in stns:
 	print('Source station code is invalid')
 	sys.exit()
-dest_stn = sys.argv[2]
+dest_stn = sys.argv[2].upper()
 if dest_stn not in stns:
 	print('Destination station code is invalid')
 	sys.exit()
@@ -62,6 +62,9 @@ for row in soup.select('tr.tbs-main-row'):
 		trains.append(data)
 
 if len(trains) > 0:
-	pprint(trains)
+	with open(source_stn+'to'+dest_stn+'.json', 'w') as out:
+		json.dump(trains, out)
+#	pprint(trains)
+	print('Output has been generated and stored in', source_stn+'to'+dest_stn+'.json')
 else:
 	print('Sorry! No trains match your search criteria, please choose different city')
